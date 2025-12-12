@@ -81,6 +81,24 @@ The EC has debug header in the upper right corner of the Mainboard next to the o
 | 9  | EC_RESETI |
 | 10 | GND |
 
+### PL1/PL2 Power Limit Code
+
+The PL1 and PL2 power limit management code controls the CPU power limits based on the AC adapter state, battery charge level, and power budget. This code is located in the board-specific directories:
+
+**For Intel 11th Gen (hx20):**
+- `board/hx20/cpu_power.c` - Main power limit calculation and management logic
+- `board/hx20/cpu_power.h` - Header file with function declarations
+- `board/hx20/peci_customization.c` - PECI interface functions (`peci_update_PL1()`, `peci_update_PL2()`, `peci_update_PL4()`, `peci_update_PsysPL2()`)
+- `board/hx20/peci_customization.h` - PECI interface header
+
+**For Intel 12th/13th Gen (hx30):**
+- `board/hx30/cpu_power.c` - Main power limit calculation and management logic
+- `board/hx30/cpu_power.h` - Header file with function declarations
+- `board/hx30/peci_customization.c` - PECI interface functions (`peci_update_PL1()`, `peci_update_PL2()`, `peci_update_PL4()`, `peci_update_PsysPL2()`)
+- `board/hx30/peci_customization.h` - PECI interface header
+
+The `cpu_power.c` files contain the `update_soc_power_limit()` function which calculates appropriate power limits based on system state, while the `peci_customization.c` files provide the low-level PECI (Platform Environment Control Interface) functions to communicate these limits to the CPU.
+
 ## Background
 
 The Framework Laptop EC is based upon the Google Chromium EC repository: https://chromium.googlesource.com/chromiumos/platform/ec. We upstream common features where they fit into the design decisions of Chrome OS. However, there are a number of features and changes that will be unlikely to be upstreamed because they are unnecessary for Chrome OS operation or do not fit the philosophy of Chrome OS.
